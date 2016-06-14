@@ -1,6 +1,6 @@
 # ranger
 
-Work in progress library to operate on `Range` objects
+Library to operate on `Range` objects in Crystal programming language.
 
 ## Installation
 
@@ -16,13 +16,33 @@ dependencies:
 
 ## Usage
 
+### Include ranges
 
 ```crystal
 require "ranger"
+
+r = Ranger.new(1..2)
+r.include(2..3)
+
+result = r.render
+puts result.inspect
+# [1..3]
 ```
 
+### Exclude ranges
 
-TODO: Write usage instructions here
+```crystal
+require "ranger"
+
+r = Ranger.new(10..20)
+r.exclude(15..16)
+
+result = r.render
+
+result = r.render
+puts result.inspect
+# [10..15, 16..20]
+```
 
 ## Development
 

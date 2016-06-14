@@ -83,7 +83,7 @@ struct Range(B, E)
   end
 
   def >(other)
-    self.n_begin < other.n_begin
+    self.n_begin > other.n_begin
   end
 
   def mergable_with?(other)

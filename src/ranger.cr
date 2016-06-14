@@ -34,13 +34,15 @@ struct Ranger(B, E)
       if op_type == :add
         temp_ranges << range
       elsif op_type == :remove
-        temp_ranges = temp_ranges.map do |r|
+        new_ranges = Array(Range(B, E)).new
+        temp_ranges.each do |r|
           result = r - range
-          result
-          r
+          if result
+            new_ranges += result
+          end
         end
 
-        temp_ranges = temp_ranges.flatten
+        temp_ranges = new_ranges
       end
     end
 
@@ -56,12 +58,13 @@ struct Ranger(B, E)
         merged = (sorted_ranges[i].merge_with(sorted_ranges[i+1])) as Range(B, E)
         sorted_ranges[i] = merged
         sorted_ranges.delete_at(i+1)
+      else
+        i += 1
       end
 
-      i += 1
     end
 
-    return sorted_ranges
+    return sorted_ranges.sort
   end
 
   # def self.include(ra : Ranger(B, E), rb : Ranger(B, E))
