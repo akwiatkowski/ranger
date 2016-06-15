@@ -46,44 +46,7 @@ struct Ranger(B, E)
       end
     end
 
-    return normalize(temp_ranges)
+    return Range.glue(temp_ranges)
   end
-
-  def normalize(temp_ranges)
-    sorted_ranges = temp_ranges.sort
-    i = 0
-
-    while i < sorted_ranges.size
-      if i < (sorted_ranges.size - 1) && sorted_ranges[i].mergable_with?(sorted_ranges[i+1])
-        merged = (sorted_ranges[i].merge_with(sorted_ranges[i+1])) as Range(B, E)
-        sorted_ranges[i] = merged
-        sorted_ranges.delete_at(i+1)
-      else
-        i += 1
-      end
-
-    end
-
-    return sorted_ranges.sort
-  end
-
-  # def self.include(ra : Ranger(B, E), rb : Ranger(B, E))
-  #   ranges = Array(Range(B, E)).new
-  #
-  #   # if self.includes_range?(other)
-  #   #   # self contains whole other
-  #   #   return Ranger.new(self)
-  #   #
-  #   # elsif other.includes_range?(self)
-  #   #   # other contains whole self
-  #   #   return Ranger.new(other)
-  #   #
-  #   # elsif self.includes_begin_of?(self)
-  #   # end
-  # end
-  #
-  # def self.include_pair(ra : Range(B, E), rb : Range(B, E))
-  #
-  # end
 
 end

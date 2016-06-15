@@ -1,5 +1,5 @@
 struct Range(B, E)
-  def +(other)
+  def +(other) : Array(Range(B, E))
     if self.includes_range?(other)
       # (1..10) + (2..5) => (1..10)
       return [self]
@@ -18,12 +18,14 @@ struct Range(B, E)
 
     elsif self.exclusive?(other)
       # (1..2) + (5..10) => (1..2) + (5..10)
-      return [self, other]
+      return self.class.glue([self, other])
 
     end
+
+    return Array(Range(B,E)).new
   end
 
-  def -(other)
+  def -(other) : Array(Range(B, E))
     if other.includes_range?(self)
       return Array(Range(B, E)).new
 
@@ -43,6 +45,8 @@ struct Range(B, E)
       return [self]
 
     end
+
+    return Array(Range(B,E)).new
   end
 
   # normalized begin
@@ -84,6 +88,24 @@ struct Range(B, E)
 
   def >(other)
     self.n_begin > other.n_begin
+  end
+
+  def self.glue(temp_ranges : Array(Range(B, E)))
+    sorted_ranges = temp_ranges.sort
+    i = 0
+
+    while i < sorted_ranges.size
+      if i < (sorted_ranges.size - 1) && sorted_ranges[i].mergable_with?(sorted_ranges[i+1])
+        merged = (sorted_ranges[i].merge_with(sorted_ranges[i+1])) as Range(B, E)
+        sorted_ranges[i] = merged
+        sorted_ranges.delete_at(i+1)
+      else
+        i += 1
+      end
+
+    end
+
+    return sorted_ranges.sort
   end
 
   def mergable_with?(other)

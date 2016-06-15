@@ -31,4 +31,15 @@ describe Range do
     (1..10).exclusive?(20..30).should eq true
   end
 
+  it "include 2 simple Range" do
+    result = (1..2) + (2..3)
+    result[0].should eq 1..3
+  end
+
+  it "exclude 2 simple Range" do
+    result = (1..10) - (5..6)
+    result[0].should eq 1..5
+    result[1].should eq 6..10
+  end
+
 end
