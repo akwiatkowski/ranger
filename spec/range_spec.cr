@@ -42,4 +42,15 @@ describe Range do
     result[1].should eq 6..10
   end
 
+  it "include 2 Time Range objects" do
+    ra = (Time.new(2016, 1, 1))..(Time.new(2016, 2, 1))
+    rb = (Time.new(2016, 2, 1))..(Time.new(2016, 3, 1))
+
+    result = ra + rb
+
+    result[0].begin.month.should eq 1
+    result[0].end.month.should eq 3
+  end
+
+
 end
