@@ -49,6 +49,53 @@ struct Range(B, E)
     return Array(Range(B,E)).new
   end
 
+  def /(d : Int32) : Array(Range(B, E))
+    a = Array(Range(B, E)).new
+
+    i = self.n_begin
+    j = (self.n_end - self.n_begin) / d
+    while i < self.n_end
+      b = i
+      e = i + j
+      e = self.n_end if self.n_end < e
+
+      a << (b..e)
+
+      i += j
+    end
+
+    a
+  end
+
+  def %(j) : Array(Range(B, E))
+    div(j, allow_partial: true)
+  end
+
+  def ^(j) : Array(Range(B, E))
+    div(j, allow_partial: false)
+  end
+
+  def div(j, allow_partial = true)
+    a = Array(Range(B, E)).new
+
+    i = self.n_begin
+    while i < self.n_end
+      b = i
+      e = i + j
+
+      if self.n_end < e
+        e = self.n_end
+        a << (b..e) if allow_partial
+      else
+        a << (b..e)
+      end
+
+      i += j
+    end
+
+    a
+  end
+
   # normalized begin
   def n_begin
     [self.begin, self.end].min

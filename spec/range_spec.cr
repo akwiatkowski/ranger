@@ -52,5 +52,44 @@ describe Range do
     result[0].end.month.should eq 3
   end
 
+  it "divite Range into 2 objects" do
+    result = (0..10) / 2
+    result[0].should eq 0..5
+    result[1].should eq 5..10
+  end
+
+  it "divite 1-month Range into 4 ranges" do
+    ra = (Time.new(2016, 1, 1))..(Time.new(2016, 2, 1))
+
+    result = ra / 4
+
+    result.size.should eq 4
+  end
+
+  it "divite 1-month Range into 1-week ranges, allow partial" do
+    ra = (Time.new(2016, 1, 1))..(Time.new(2016, 2, 1))
+    j = Time.new(2016, 1, 8) - Time.new(2016, 1, 1)
+
+    result = ra % j
+
+    # last week is not full
+    result[0..-2].each do |r|
+      span = r.end - r.begin
+      span.should eq j
+    end
+  end
+
+  it "divite 1-month Range into 1-week ranges, allow partial" do
+    ra = (Time.new(2016, 1, 1))..(Time.new(2016, 2, 1))
+    j = Time.new(2016, 1, 8) - Time.new(2016, 1, 1)
+
+    result = ra ^ j
+
+    # last week is not full
+    result.each do |r|
+      span = r.end - r.begin
+      span.should eq j
+    end
+  end
 
 end
