@@ -42,5 +42,4 @@ describe Ranger do
     result[0].should eq 10..15
     result[1].should eq 16..20
   end
-
 end

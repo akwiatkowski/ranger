@@ -28,7 +28,7 @@ struct Ranger(B, E)
     return temp_ranges if @operations.size == 0
 
     @operations.each do |o|
-      range = o[1] as Range(B, E)
+      range = o[1].as(Range(B, E))
       op_type = o[0]
 
       if op_type == :add
@@ -48,5 +48,4 @@ struct Ranger(B, E)
 
     return Range.glue(temp_ranges)
   end
-
 end

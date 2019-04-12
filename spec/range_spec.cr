@@ -91,5 +91,4 @@ describe Range do
       span.should eq j
     end
   end
-
 end
